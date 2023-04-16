@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+     viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:inline;}
+	.st2{fill:#fafafa;}
+	.st3{fill:url(#SVGID_1_);}
+	.st4{fill:url(#SVGID_2_);}
+</style>
+    <g id="Layer_2" class="st0">
+	<rect class="st1" width="500" height="500"/>
+</g>
+    <g id="Layer_1">
+	<g>
+		<path class="st2" d="M416.8,82.8L416.8,82.8c-7.7-7.7-20.1-7.7-27.8,0l-72.5,72.5l27.8,27.8l72.5-72.5
+			C424.5,102.9,424.5,90.4,416.8,82.8z"/>
+
+        <rect x="136.3" y="256.1" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -129.4428 239.0122)" class="st2"
+              width="175" height="39.3"/>
+        <path class="st2"
+              d="M82.5,389.3c-7.7,7.7-7.7,20.1,0,27.8h0c7.7,7.7,20.1,7.7,27.8,0l20.8-20.8l-27.8-27.8L82.5,389.3z"/>
+
+        <rect x="276.4" y="171.9" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -45.2143 273.9008)" class="st2"
+              width="63.2" height="39.3"/>
+
+       
+        <polygon class="st3" points="271.8,200 299.6,227.8 344.3,183.1 316.5,155.3 		"/>
+
+        <rect x="107.9" y="340.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -213.6717 204.125)" class="st2"
+              width="63.2" height="39.3"/>
+        <polygon class="st4" points="103.3,368.4 131.1,396.2 175.8,351.5 148,323.7 		"/>
+	</g>
+        <g>
+		<path class="st2" d="M331.7,354.9H167.6c-57.9,0-105-47.1-105-105s47.1-105,105-105h164.1c57.9,0,105,47.1,105,105
+			S389.6,354.9,331.7,354.9z M167.6,184.2c-36.2,0-65.7,29.5-65.7,65.7c0,36.2,29.5,65.7,65.7,65.7h164.1
+			c36.2,0,65.7-29.5,65.7-65.7c0-36.2-29.5-65.7-65.7-65.7H167.6z"/>
+	</g>
+</g>
+</svg>

@@ -1,17 +1,64 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model categories {
+  id            BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  title         String          @db.VarChar(255)
+  slug          String          @db.VarChar(255)
+  post_category post_category[]
+}
+
+model pages {
+  id      BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  title   String @db.VarChar(255)
+  slug    String @db.VarChar(255)
+  content String @db.LongText
+}
+
+model post_category {
+  id          BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
+  category_id BigInt     @db.UnsignedBigInt
+  post_id     BigInt     @db.UnsignedBigInt
+  category    categories @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "category_fk")
+  post        posts      @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "post_fk")
+
+  @@index([category_id], map: "category_fk")
+  @@index([post_id], map: "post_fk")
+}
+
+model post_tag {
+  id      BigInt @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  tag_id  BigInt @db.UnsignedBigInt
+  post_id BigInt @db.UnsignedBigInt
+  tag     tags   @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tag_fk")
+  post    posts  @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "tag_post_fk")
+
+  @@index([tag_id], map: "tag_fk")
+  @@index([post_id], map: "tag_post_fk")
+}
+
+model posts {
+  id              BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  title           String          @db.VarChar(255)
+  slug            String          @unique(map: "posts_slug_unique") @db.VarChar(255)
+  content         String          @db.Text
+  thumbnail_path  String?         @db.Text
+  seo_description String?         @db.Text
+  created_at      DateTime?       @db.Timestamp(0)
+  updated_at      DateTime?       @db.Timestamp(0)
+  post_category   post_category[]
+  post_tag        post_tag[]
+}
+
+model tags {
+  id       BigInt     @id @default(autoincrement()) @db.UnsignedBigInt
+  name     String     @db.LongText
+  slug     String     @db.LongText
+  post_tag post_tag[]
 }
