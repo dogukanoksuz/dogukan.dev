@@ -12,7 +12,7 @@ const Progress: React.FC<IProgress> = ({ contentHeight }) => {
   useEffect(() => {
     const handleScroll = throttle(() => {
       const calculateBarHeight = () => {
-        let height = (window.scrollY / contentHeight) * 100 + 10;
+        const height = (window.scrollY / contentHeight) * 100 + 10;
         if (height <= 10)
             return 10;
         if (height >= 100)

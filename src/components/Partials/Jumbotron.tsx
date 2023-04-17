@@ -1,4 +1,4 @@
-import * as React from 'react';
+import Link from "next/link";
 
 export default function Jumbotron() {
     return (
@@ -15,12 +15,12 @@ export default function Jumbotron() {
                     çalışmalar yapmaktayım.
                 </p>
                 <div>
-                    <a
+                    <Link
                         className="inline-block py-4 px-8 mr-6 leading-none text-white bg-red-500 hover:bg-red-700 font-semibold rounded shadow"
-                        href="#"
+                        href="/page/iletisim"
                     >
                         İletişime geç
-                    </a>
+                    </Link>
                     <a className="text-red-600 hover:underline" href="#anchor">
                         Makalelere göz at
                     </a>

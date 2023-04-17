@@ -8,6 +8,6 @@ await import("./src/env.mjs");
 const config = {
   reactStrictMode: true,
 
-  pageExtensions: ['html', 'jsx', 'js', 'tsx', 'ts'],
+  pageExtensions: ["html", "jsx", "js", "tsx", "ts"],
 };
 export default config;
