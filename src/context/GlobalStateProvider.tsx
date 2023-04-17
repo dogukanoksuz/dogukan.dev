@@ -1,9 +1,9 @@
 import React, {
   createContext,
-  useState,
   useContext,
-  Dispatch,
-  SetStateAction,
+  useState,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 
 export interface GlobalStateInterface {

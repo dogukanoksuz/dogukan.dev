@@ -10,8 +10,10 @@ export default function Logo(props: ILogoProps) {
   return (
     <div>
       {props.mode === "dark" ? (
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         <Image className="logo h-14 w-auto" src={dark} alt="Doğukan Öksüz" />
       ) : (
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         <Image className="logo h-14 w-auto" src={light} alt="Doğukan Öksüz" />
       )}
     </div>

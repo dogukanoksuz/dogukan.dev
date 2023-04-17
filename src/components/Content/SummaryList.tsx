@@ -1,6 +1,6 @@
-import * as React from "react";
+import Loading from "../Partials/Loading";
 import Summary from "./Summary";
-import { posts } from "@prisma/client";
+import { type posts } from "@prisma/client";
 
 export interface ISummaryListProps {
   articles: posts[] | undefined;
@@ -16,7 +16,7 @@ export default function SummaryList(props: ISummaryListProps) {
           })}
         </section>
       ) : (
-        <>Loading...</>
+        <Loading />
       )}
     </>
   );
