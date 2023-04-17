@@ -1,9 +1,15 @@
-import Loading from "../Partials/Loading";
+import Loading from "../Loading";
 import Summary from "./Summary";
-import { type posts } from "@prisma/client";
+import type { posts, post_category, categories } from "@prisma/client";
+
+type IPost = posts & {
+  post_category: (post_category & {
+    category: categories;
+  })[];
+};
 
 export interface ISummaryListProps {
-  articles: posts[] | undefined;
+  articles: IPost[] | undefined;
 }
 
 export default function SummaryList(props: ISummaryListProps) {
