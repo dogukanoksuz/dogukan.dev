@@ -1,4 +1,3 @@
-import "highlight.js/styles/atom-one-dark.css";
 import debounce from "lodash/debounce";
 import { type NextPage } from "next";
 import Head from "next/head";
