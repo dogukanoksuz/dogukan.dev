@@ -1,19 +1,40 @@
-import debounce from "lodash/debounce";
-import { type NextPage } from "next";
+import { htmlDecode } from "js-htmlencode";
+import { debounce } from "lodash";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import Error from "~/components/Error";
+import { useCallback, useState } from "react";
 import Loading from "~/components/Loading";
 import Progress from "~/components/Progress";
-import { api } from "~/utils/api";
-import { htmlDecode } from "js-htmlencode";
+import ServerSideTRPC from "~/utils/trpc_serverside";
 
-const Post: NextPage = () => {
-  const { status, data } = api.post.show.useQuery({
-    slug: useRouter().query.slug as string,
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<{ slug: string }>
+) {
+  const trpc = ServerSideTRPC();
+
+  const post = await trpc.post.show.fetch({
+    slug: context.query.slug as string,
   });
+
+  if (!post) {
+    return {
+      props: { data: null },
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      data: post,
+    },
+  };
+}
+
+export default function Post(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
+  const { data } = props;
 
   const [contentHeight, setContentHeight] = useState<number>(0);
 
@@ -31,18 +52,6 @@ const Post: NextPage = () => {
     }
   }, []);
   /* eslint-enable */
-
-  if (status === "loading") {
-    return <Loading />;
-  }
-
-  if (status === "error") {
-    return <Error statusCode="500" />;
-  }
-
-  if (status === "success" && !data) {
-    return <Error statusCode="404" />;
-  }
 
   return (
     <>
@@ -97,7 +106,9 @@ const Post: NextPage = () => {
                   </span>
                 );
               })}
-            <div dangerouslySetInnerHTML={{ __html: htmlDecode(data.content) }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: htmlDecode(data.content) }}
+            />
           </article>
         ) : (
           <Loading />
@@ -105,6 +116,4 @@ const Post: NextPage = () => {
       </>
     </>
   );
-};
-
-export default Post;
+}

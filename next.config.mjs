@@ -9,5 +9,10 @@ const config = {
   reactStrictMode: true,
 
   pageExtensions: ["html", "jsx", "js", "tsx", "ts"],
+
+  // tRPC and Prisma serversideprop support
+  experimental: {
+    swcPlugins: [["next-superjson-plugin", {}]],
+  },
 };
 export default config;
