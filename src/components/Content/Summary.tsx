@@ -1,14 +1,15 @@
-import type { posts, post_category, categories } from "@prisma/client";
+import type { inferRouterOutputs } from "@trpc/server";
 import Link from "next/link";
+import { AppRouter } from "~/server/api/root";
 
-type IPost = posts & {
-  post_category: (post_category & {
-    category: categories;
-  })[];
-};
+
+type RouterTypes = inferRouterOutputs<AppRouter>;
+type IPost = RouterTypes["post"]["read"];
+
+type ISinglePost = IPost[0]
 
 export interface ISummaryProps {
-  article: IPost;
+  article: ISinglePost;
 }
 
 export default function Summary(props: ISummaryProps) {
