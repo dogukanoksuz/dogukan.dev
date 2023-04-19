@@ -1,37 +1,14 @@
+import { type Prisma } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
 import { Excerpt } from "~/utils/excerpt";
 
-export const postRouter = createTRPCRouter({
-  show: publicProcedure
-    .input(
-      z.object({
-        slug: z.string().default(""),
-      })
-    )
-    .query(({ ctx, input }) => {
-      return ctx.prisma.posts.findUnique({
-        where: {
-          slug: input.slug,
-        },
-        include: {
-          post_category: {
-            include: {
-              category: true,
-            },
-          },
-          post_tag: {
-            include: {
-              tag: true,
-            },
-          },
-        },
-      });
-    }),
+export const searchRouter = createTRPCRouter({
   infinitePosts: publicProcedure
     .input(
       z.object({
+        query: z.string().default(""),
         limit: z.number().min(1).max(100).nullish(),
         cursor: z.number().nullish(),
       })
@@ -52,6 +29,20 @@ export const postRouter = createTRPCRouter({
             },
           },
         },
+        where: {
+          OR: [
+            {
+              title: {
+                contains: input.query,
+              },
+            },
+            {
+              content: {
+                contains: input.query,
+              },
+            },
+          ],
+        } as Prisma.postsWhereInput,
       });
 
       items.forEach((result) => {
