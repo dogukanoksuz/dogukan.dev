@@ -1,29 +1,39 @@
-import { type NextPage } from "next";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import Error from "~/components/Error";
-import Loading from "~/components/Loading";
-import { api } from "~/utils/api";
+import AnimatedLayout from "~/components/AnimatedLayout";
+import ServerSideTRPC from "~/utils/trpc_serverside";
 
-const Page: NextPage = () => {
-  const { status, data } = api.page.show.useQuery({
-    slug: useRouter().query.slug as string,
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<{ slug: string }>
+) {
+  const trpc = ServerSideTRPC();
+
+  const page = await trpc.page.show.fetch({
+    slug: context.query.slug as string,
   });
 
-  if (status === "loading") {
-    return <Loading />;
-  }
-  
-  if (status === "error") {
-    return <Error statusCode="500" />;
+  if (!page) {
+    return {
+      props: { data: null },
+      notFound: true,
+    };
   }
 
-  if (status === "success" && data === null) {
-    return <Error statusCode="404" />;
-  }
+  return {
+    props: {
+      trpcState: trpc.dehydrate(),
+      data: page,
+    },
+  };
+}
+
+export default function Post(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
+  const { data } = props;
 
   return (
-    <>
+    <AnimatedLayout>
       <Head>
         <title>Doğukan Öksüz - dogukan.dev</title>
         <link rel="icon" href="/favicon.png" />
@@ -40,8 +50,6 @@ const Page: NextPage = () => {
           dangerouslySetInnerHTML={{ __html: data?.content as string }}
         />
       </article>
-    </>
+    </AnimatedLayout>
   );
-};
-
-export default Page;
+}

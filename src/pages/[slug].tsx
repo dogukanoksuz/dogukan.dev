@@ -1,12 +1,13 @@
 import { htmlDecode } from "js-htmlencode";
 import { debounce } from "lodash";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import Loading from "~/components/Loading";
+import Loading from "~/pages/loading";
 import Progress from "~/components/Progress";
 import ServerSideTRPC from "~/utils/trpc_serverside";
+import AnimatedLayout from "~/components/AnimatedLayout";
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<{ slug: string }>
@@ -26,6 +27,7 @@ export async function getServerSideProps(
 
   return {
     props: {
+      trpcState: trpc.dehydrate(),
       data: post,
     },
   };
@@ -54,7 +56,7 @@ export default function Post(
   /* eslint-enable */
 
   return (
-    <>
+    <AnimatedLayout>
       <Head>{data && <title>{data.title} - Doğukan Öksüz</title>}</Head>
 
       <>
@@ -114,6 +116,6 @@ export default function Post(
           <Loading />
         )}
       </>
-    </>
+    </AnimatedLayout>
   );
 }

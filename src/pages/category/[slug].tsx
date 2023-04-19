@@ -1,42 +1,54 @@
-import { type NextPage } from "next";
-import { useRouter } from "next/router";
-
-import { api } from "~/utils/api";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
+import AnimatedLayout from "~/components/AnimatedLayout";
 import SummaryList from "~/components/Content/SummaryList";
-import Loading from "~/components/Loading";
-import Error from "~/components/Error";
+import ServerSideTRPC from "~/utils/trpc_serverside";
 
-const Category: NextPage = () => {
-  const category = api.category.show.useQuery({
-    slug: useRouter().query.slug as string,
-  });
+export async function getServerSideProps(
+  context: GetServerSidePropsContext<{ slug: string }>
+) {
+  const trpc = ServerSideTRPC();
 
-  const { status, data } = api.category.getPosts.useQuery({
-    slug: useRouter().query.slug as string,
-  });
+  const [category, posts] = await Promise.all([
+    trpc.category.show.fetch({
+      slug: context.query.slug as string,
+    }),
+    trpc.category.getPosts.fetch({
+      slug: context.query.slug as string,
+    }),
+  ]);
 
-  if (status === "loading") {
-    return <Loading />;
+  if (!category || !posts) {
+    return {
+      props: { category: null, posts: null },
+      notFound: true,
+    };
   }
 
-  if (status === "error") {
-    return <Error statusCode="500" />;
-  }
+  return {
+    props: {
+      trpcState: trpc.dehydrate(),
+      category,
+      posts,
+    },
+  };
+}
 
-  if (status === "success" && (data === undefined || data.length === 0)) {
-    return <Error statusCode="404" />;
-  }
+export default function Category(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
+  const { category, posts } = props;
 
   return (
-    <>
-      <section className="mx-auto w-full max-w-6xl px-5 xl:px-0 mb-24">
+    <AnimatedLayout>
+      <section className="mx-auto mb-24 w-full max-w-6xl px-5 xl:px-0">
         <h1 className="mb-4 text-center text-4xl font-semibold text-gray-800 hover:text-black dark:text-gray-300 dark:hover:text-gray-500">
-          {category.data ? category.data.title : "-"} kategorisi
+          {category ? category.title : "-"} kategorisi
         </h1>
       </section>
-      <SummaryList articles={data} />
-    </>
+      <SummaryList articles={posts as NonNullable<typeof posts>} />
+    </AnimatedLayout>
   );
-};
-
-export default Category;
+}

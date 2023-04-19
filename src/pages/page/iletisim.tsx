@@ -1,14 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import { api } from "~/utils/api";
+import AnimatedLayout from "~/components/AnimatedLayout";
 
 const Page: NextPage = () => {
-  const page = api.page.show.useQuery({
-    slug: "iletisim",
-  });
-
   return (
-    <>
+    <AnimatedLayout>
       <Head>
         <title>Doğukan Öksüz - dogukan.dev</title>
         <link rel="icon" href="/favicon.png" />
@@ -20,10 +16,10 @@ const Page: NextPage = () => {
         className="prose relative mx-auto px-5 py-0 dark:prose-light sm:prose lg:prose-lg xl:prose-xl md:py-4 lg:py-8
   xl:py-16"
       >
-        <h1>{page.data ? page.data.title : "-"}</h1>
+        <h1>İletişim</h1>
         İletişim sayfam
       </article>
-    </>
+    </AnimatedLayout>
   );
 };
 
