@@ -1,6 +1,6 @@
-import { htmlDecode } from "js-htmlencode";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { Excerpt } from "~/utils/excerpt";
 
 export const categoryRouter = createTRPCRouter({
   show: publicProcedure.
@@ -45,13 +45,7 @@ export const categoryRouter = createTRPCRouter({
       });
 
       results.forEach((result) => {
-        result.content = htmlDecode(result.content)
-          .replace(/<[^>]*>?/gm, "")
-          .replace(/\\u[\dA-F]{4}/gi, function (match) {
-            return String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16));
-          })
-          .replace(/\&nbsp;/g, "")
-          .substring(0, 225) + "...";
+        result.content = Excerpt(result.content);
       });
 
       return results;

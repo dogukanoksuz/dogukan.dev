@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { htmlDecode } from "js-htmlencode";
+import { prisma } from "~/server/db";
+import { Excerpt } from "~/utils/excerpt";
 
 export const postRouter = createTRPCRouter({
   read: publicProcedure
@@ -27,13 +28,7 @@ export const postRouter = createTRPCRouter({
       });
 
       results.forEach((result) => {
-        result.content = htmlDecode(result.content)
-          .replace(/<[^>]*>?/gm, "")
-          .replace(/\\u[\dA-F]{4}/gi, function (match) {
-            return String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16));
-          })
-          .replace(/\&nbsp;/g, "")
-          .substring(0, 225) + "...";
+        result.content = Excerpt(result.content);
       });
 
       return results;
@@ -62,5 +57,44 @@ export const postRouter = createTRPCRouter({
           },
         },
       });
+    }),
+  infinitePosts: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.number().nullish(), // <-- "cursor" needs to exist, but can be any type
+      })
+    )
+    .query(async ({ input }) => {
+      const limit = input.limit ?? 50;
+      const { cursor } = input;
+      const items = await prisma.posts.findMany({
+        take: limit + 1, // get an extra item at the end which we'll use as next cursor
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: {
+          created_at: "desc",
+        },
+        include: {
+          post_category: {
+            include: {
+              category: true,
+            },
+          },
+        },
+      });
+
+      items.forEach((result) => {
+        result.content = Excerpt(result.content);
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop();
+        nextCursor = Number(nextItem!.id.toString());
+      }
+      return {
+        items,
+        nextCursor,
+      };
     }),
 });
