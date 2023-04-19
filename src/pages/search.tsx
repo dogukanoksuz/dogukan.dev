@@ -1,16 +1,25 @@
 import { type NextPage } from "next";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import AnimatedLayout from "~/components/AnimatedLayout";
-import Jumbotron from "~/components/Partials/Jumbotron";
 import { api } from "~/utils/api";
 import Loading from "../components/Loading";
 import Summary from "~/components/Content/Summary";
 import Error from "~/components/Error";
 import { AnimatePresence } from "framer-motion";
+import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
+const Search: NextPage = () => {
+  const router = useRouter();
+  const [query, setQuery] = useState<string>("");
+
   const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (router.query.query && router.query.query !== "") {
+      setQuery(router.query.query as string);
+    }
+  }, [router.query.query]);
 
   const {
     status,
@@ -19,8 +28,9 @@ const Home: NextPage = () => {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = api.post.infinitePosts.useInfiniteQuery(
+  } = api.search.infinitePosts.useInfiniteQuery(
     {
+      query,
       limit: 5,
     },
     {
@@ -36,7 +46,11 @@ const Home: NextPage = () => {
 
   return (
     <AnimatedLayout>
-      <Jumbotron />
+      <section className="mx-auto mb-24 w-full max-w-6xl px-5 xl:px-0">
+        <h1 className="mb-4 text-center text-4xl font-semibold text-gray-800 hover:text-black dark:text-gray-300 dark:hover:text-gray-500">
+          &quot;{query}&quot; araması
+        </h1>
+      </section>
       <section className="mx-auto w-full max-w-6xl px-5 xl:px-0">
         {status === "loading" ? (
           <Loading />
@@ -75,4 +89,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Search;

@@ -1,20 +1,16 @@
-import type { inferRouterOutputs } from "@trpc/server";
-import Summary from "./Summary";
-import { AppRouter } from "~/server/api/root";
-
-type RouterTypes = inferRouterOutputs<AppRouter>;
-type IPost = RouterTypes["post"]["read"];
+import Summary, { type IPost } from "./Summary";
 
 export interface ISummaryListProps {
-  articles: IPost;
+  articles: IPost[];
 }
 
 export default function SummaryList(props: ISummaryListProps) {
   return (
     <section className="mx-auto w-full max-w-6xl px-5 xl:px-0">
-      {props.articles && props.articles.map(function (article, index) {
-        return <Summary article={article} key={index} />;
-      })}
+      {props.articles &&
+        props.articles.map(function (article, index) {
+          return <Summary article={article} key={index} />;
+        })}
     </section>
   );
 }

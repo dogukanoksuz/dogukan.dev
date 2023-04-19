@@ -3,7 +3,7 @@ import { type AppType } from "next/app";
 import Head from "next/head";
 import { Router, useRouter } from "next/router";
 import NProgress from "nprogress";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Footer from "~/components/Footer/Footer";
 import Header from "~/components/Header/Header";
 import { GlobalStateProvider } from "~/context/GlobalStateProvider";
@@ -18,8 +18,13 @@ const variants = {
 
 const DivergentApp: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
+  
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  
   Router.events.on("routeChangeStart", () => NProgress.start());
-  Router.events.on("routeChangeComplete", () => NProgress.done());
+  Router.events.on("routeChangeComplete", () => { NProgress.done(); setTimeout(() => scrollToTop(), 150) });
   Router.events.on("routeChangeError", () => NProgress.done());
 
   useEffect(() => {

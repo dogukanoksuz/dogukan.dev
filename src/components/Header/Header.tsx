@@ -50,7 +50,7 @@ export default function Header() {
         <div className="mx-auto max-w-6xl px-5 py-0 md:py-4 lg:py-8 xl:px-0 xl:py-14">
           <div className="flex items-center justify-between py-6 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <Link href="/">
+              <Link href="/" scroll={false}>
                 <span className="sr-only">Doğukan Öksüz</span>
                 <Logo mode={mode} />
               </Link>

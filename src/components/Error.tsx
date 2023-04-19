@@ -20,6 +20,7 @@ export default function Error(props: IErrorProps) {
       document.title = "500 - Sunucu hatası";
       setDescription("Sunucu hatası oluştu, daha sonra tekrar deneyin.");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.statusCode]);
 
   return (

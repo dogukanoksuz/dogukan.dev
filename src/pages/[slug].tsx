@@ -4,10 +4,10 @@ import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "nex
 import Head from "next/head";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import Loading from "~/pages/loading";
+import AnimatedLayout from "~/components/AnimatedLayout";
+import Loading from "~/components/Loading";
 import Progress from "~/components/Progress";
 import ServerSideTRPC from "~/utils/trpc_serverside";
-import AnimatedLayout from "~/components/AnimatedLayout";
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<{ slug: string }>
@@ -82,7 +82,7 @@ export default function Post(
                 data.post_category.map((item, index, arr) => {
                   return (
                     <span key={`${item.category.slug}-${index}`}>
-                      <Link href={`/category/${item.category.slug}`}>
+                      <Link href={`/category/${item.category.slug}`} scroll={false}>
                         {item.category.title}
                       </Link>
                       {index !== arr.length - 1 ? (
@@ -101,7 +101,7 @@ export default function Post(
               data.post_tag.map((item, index, arr) => {
                 return (
                   <span key={`${item.tag.slug}-${index}`}>
-                    <Link href={`/tag/${item.tag.slug}`} className="text-xs">
+                    <Link href={`/tag/${item.tag.slug}`} className="text-xs" scroll={false}>
                       #{item.tag.name}
                     </Link>
                     {index !== arr.length - 1 && <span>,&nbsp;</span>}

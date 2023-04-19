@@ -18,6 +18,7 @@ export default function Jumbotron() {
                     <Link
                         className="inline-block py-4 px-8 mr-6 leading-none text-white bg-red-500 hover:bg-red-700 font-semibold rounded shadow"
                         href="/page/iletisim"
+                        scroll={false}
                     >
                         İletişime geç
                     </Link>
