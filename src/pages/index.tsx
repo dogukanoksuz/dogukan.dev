@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import Loading from "./loading";
 import Summary from "~/components/Content/Summary";
 import Error from "~/components/Error";
+import { AnimatePresence } from "framer-motion";
 
 const Home: NextPage = () => {
   const { ref, inView } = useInView();
@@ -45,20 +46,19 @@ const Home: NextPage = () => {
           <>
             {data.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>
-                {page.items.map((article) => (
-                  <Summary article={article} key={article.id.toString()} />
-                ))}
+                <AnimatePresence>
+                  {page.items.map((article) => (
+                    <Summary article={article} key={article.id.toString()} />
+                  ))}
+                </AnimatePresence>
               </React.Fragment>
             ))}
             <div>
-              <div
-                ref={ref}
-                onClick={() => fetchNextPage()}
-              >
+              <div ref={ref} onClick={() => fetchNextPage()}>
                 {isFetchingNextPage ? (
                   <Loading />
-                ) : hasNextPage && (
-                  "Yenileri yükle"
+                ) : (
+                  hasNextPage && "Yenileri yükle"
                 )}
               </div>
             </div>
