@@ -3,12 +3,15 @@ import {
   MoonIcon,
   SunIcon,
   MagnifyingGlassIcon,
+  Bars3Icon,
 } from "@heroicons/react/24/outline";
 import Logo from "./Logo";
 import NavItem from "./NavItem";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Search from "./Search";
+import MobileMenu from "./MobileMenu";
 
 const variants = {
   hidden: { opacity: 0, y: -50 },
@@ -38,14 +41,8 @@ export default function Header() {
     }
   };
 
-  // TODO (dogukanoksuz): Add mobile menu
-  // TODO (dogukanoksuz): Add search modal
   return (
-    <motion.div
-      variants={variants}
-      initial="hidden"
-      animate="visible"
-    >
+    <motion.div variants={variants} initial="hidden" animate="visible">
       <header className="relative">
         <div className="mx-auto max-w-6xl px-5 py-0 md:py-4 lg:py-8 xl:px-0 xl:py-14">
           <div className="flex items-center justify-between py-6 md:justify-start md:space-x-10">
@@ -65,9 +62,11 @@ export default function Header() {
             <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
               <a
                 id="search"
-                className="modal-open float-left whitespace-nowrap p-2 text-base font-medium text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
+                className="float-left whitespace-nowrap p-2 text-base font-medium text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
               >
-                <MagnifyingGlassIcon className="h-6 w-6" />
+                <Search>
+                  <MagnifyingGlassIcon className="h-6 w-6" />
+                </Search>
               </a>
 
               <a
@@ -80,6 +79,15 @@ export default function Header() {
                 ) : (
                   <MoonIcon className="h-6 w-6" />
                 )}
+              </a>
+
+              <a
+                id="mobile-menu"
+                className="md:hidden float-left whitespace-nowrap p-2 text-base font-medium text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
+              >
+                <MobileMenu mode={mode}>
+                  <Bars3Icon className="h-6 w-6" />
+                </MobileMenu>
               </a>
             </div>
           </div>

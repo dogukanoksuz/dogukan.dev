@@ -61,6 +61,12 @@ const Search: NextPage = () => {
             {data.pages.map((page) => (
               <React.Fragment key={page.nextCursor}>
                 <AnimatePresence>
+                  {page.items.length === 0 && (
+                    <div className="text-center text-gray-800 dark:text-gray-300 mb-32">
+                      <p className="text-3xl font-semibold">Sonuç bulunamadı</p>
+                      <p className="text-xl">Arama kriterlerinizi değiştirin</p>
+                    </div>
+                  )}
                   {page.items.map((article) => (
                     <Summary article={article} key={article.id.toString()} />
                   ))}
