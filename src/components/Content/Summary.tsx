@@ -2,7 +2,9 @@ import type { categories, post_category, posts } from "@prisma/client";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-export type IPost = posts & { post_category: (post_category & { category: categories; })[]; }
+export type IPost = posts & {
+  post_category: (post_category & { category: categories })[];
+};
 
 export interface ISummaryProps {
   article: IPost;
@@ -31,7 +33,11 @@ export default function Summary(props: ISummaryProps) {
             </div>
             <div className="article-excerpt flex flex-col justify-center py-10 md:w-7/12 md:py-0 md:pl-20">
               <h2 className="mb-4 text-3xl font-semibold text-gray-800 hover:text-black dark:text-gray-300 dark:hover:text-gray-500">
-                <Link href={`/${props.article.slug}`} className="block" scroll={false}>
+                <Link
+                  href={`/${props.article.slug}`}
+                  className="block"
+                  scroll={false}
+                >
                   {props.article.title}
                 </Link>
               </h2>
@@ -39,13 +45,24 @@ export default function Summary(props: ISummaryProps) {
                 {props.article.content}
               </p>
               <div className="mt-2 text-sm text-gray-400 dark:text-gray-600">
-                <span>{props.article.updated_at?.toString()}</span>
+                <span>
+                  {props.article.created_at?.toLocaleTimeString("tr-TR", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </span>
                 <span className="mx-2">·</span>
                 {props.article.post_category &&
                   props.article.post_category.map((item, index, arr) => {
                     return (
                       <span key={`${item.category.slug}-${index}`}>
-                        <Link href={`/category/${item.category.slug}`} scroll={false}>
+                        <Link
+                          href={`/category/${item.category.slug}`}
+                          scroll={false}
+                        >
                           {item.category.title}
                         </Link>
                         {index !== arr.length - 1 ? (
