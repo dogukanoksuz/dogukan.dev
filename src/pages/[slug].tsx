@@ -1,4 +1,4 @@
-import { htmlDecode } from "js-htmlencode";
+import hljs from "highlight.js";
 import { debounce } from "lodash";
 import type {
   GetServerSidePropsContext,
@@ -6,7 +6,8 @@ import type {
 } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useCallback, useState } from "react";
+import "node_modules/highlight.js/styles/atom-one-dark.css";
+import { useCallback, useEffect, useState } from "react";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import Loading from "~/components/Loading";
 import Progress from "~/components/Progress";
@@ -36,7 +37,7 @@ export async function getServerSideProps(
     props: {
       trpcState: trpc.dehydrate(),
       data: post,
-      random: randomPosts as typeof post[],
+      random: randomPosts as (typeof post)[],
     },
   };
 }
@@ -49,6 +50,7 @@ export default function Post(
   const [contentHeight, setContentHeight] = useState<number>(0);
 
   /* eslint-disable */
+  // Element types is not supported and i couldnt fix so i used forbidden any for this.
   const contentSectionRef = useCallback((node: any) => {
     if (node !== null) {
       const debouncedCalculation = debounce(contentSectionRef);
@@ -60,6 +62,18 @@ export default function Post(
 
       setContentHeight(node.getBoundingClientRect().height);
     }
+  }, []);
+
+  // Highlightjs also cannot work with HTML elements so i had to use this workaround.
+  useEffect(() => {
+    document.querySelectorAll("pre").forEach((el: any) => {
+      hljs.addPlugin({
+        "before:highlightElement": ({ el }: any) => {
+          el.textContent = el.innerText;
+        },
+      });
+      hljs.highlightElement(el);
+    });
   }, []);
   /* eslint-enable */
 
@@ -86,12 +100,12 @@ export default function Post(
               <h1>{data.title}</h1>
               <div className="mt-2 text-sm text-gray-400 dark:text-gray-600">
                 {data.created_at?.toLocaleTimeString("tr-TR", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                  })}
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
                 <span className="mx-2">·</span>
                 {data.post_category &&
                   data.post_category.map((item, index, arr) => {
@@ -130,9 +144,7 @@ export default function Post(
                     </span>
                   );
                 })}
-              <div
-                dangerouslySetInnerHTML={{ __html: htmlDecode(data.content) }}
-              />
+              <div dangerouslySetInnerHTML={{ __html: data.content }} />
             </article>
 
             {random && (
@@ -159,7 +171,9 @@ export default function Post(
                         >
                           <img
                             className="mb-[10px] max-w-full rounded-sm shadow-md"
-                            src={`https://dogukan.dev${random_post.thumbnail_path as string}`}
+                            src={`https://dogukan.dev${
+                              random_post.thumbnail_path as string
+                            }`}
                             alt={random_post.title}
                           />
                           {random_post.title}

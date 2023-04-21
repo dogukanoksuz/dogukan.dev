@@ -28,6 +28,9 @@ dependencies:
   framer-motion:
     specifier: ^10.12.4
     version: 10.12.4(react-dom@18.2.0)(react@18.2.0)
+  highlight.js:
+    specifier: ^11.7.0
+    version: 11.7.0
   js-htmlencode:
     specifier: ^0.3.0
     version: 0.3.0
@@ -43,9 +46,6 @@ dependencies:
   nprogress:
     specifier: ^0.2.0
     version: 0.2.0
-  prismjs:
-    specifier: ^1.29.0
-    version: 1.29.0
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -81,9 +81,6 @@ devDependencies:
   '@types/prettier':
     specifier: ^2.7.2
     version: 2.7.2
-  '@types/prismjs':
-    specifier: ^1.26.0
-    version: 1.26.0
   '@types/react':
     specifier: ^18.0.37
     version: 18.0.37
@@ -565,10 +562,6 @@ packages:
 
   /@types/prettier@2.7.2:
     resolution: {integrity: sha512-KufADq8uQqo1pYKVIYzfKbJfBAc0sOeXqGbFaSpv8MRmC/zXgowNZmFcbngndGk922QDmOASEXUZCaY48gs4cg==}
-    dev: true
-
-  /@types/prismjs@1.26.0:
-    resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
     dev: true
 
   /@types/prop-types@15.7.5:
@@ -1777,6 +1770,11 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /highlight.js@11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
     dependencies:
@@ -2558,11 +2556,6 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 4.13.0
-
-  /prismjs@1.29.0:
-    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
-    engines: {node: '>=6'}
-    dev: false
 
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}

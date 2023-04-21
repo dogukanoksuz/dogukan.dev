@@ -12,6 +12,10 @@
   }
 }
 
+pre {
+  white-space: pre !important;
+}
+
 /* inter-regular - latin-ext_latin */
 @font-face {
   font-family: "Inter";
