@@ -54,13 +54,13 @@ const MobileMenu = (props: IMobileMenuProps) => {
                   <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md bg-white dark:bg-black">
                     <button
                       type="button"
-                      className="absolute right-6 top-5 flex items-center justify-center"
+                      className="absolute right-7 top-6 flex items-center justify-center"
                       onClick={closeModal}
                     >
-                      <XMarkIcon className="h-8 w-8 text-slate-700 dark:text-gray-400" />
+                      <XMarkIcon className="h-6 w-6 text-slate-700 dark:text-gray-400" />
                     </button>
 
-                    <nav className="divide-y divide-slate-900/10 text-base leading-7 text-slate-900 dark:text-gray-400">
+                    <nav className="divide-y divide-slate-900/10 dark:divide-slate-800 text-base leading-7 text-slate-900 dark:text-gray-400">
                       <div className="px-6 py-2">
                         <Link
                           className="block w-9 overflow-hidden"
