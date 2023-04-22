@@ -10,7 +10,7 @@ interface ISearchProps {
 const Search = (props: ISearchProps) => {
   const router = useRouter();
 
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
@@ -22,10 +22,11 @@ const Search = (props: ISearchProps) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const query = e.currentTarget.query.value;
+    const query = e.currentTarget.querySelector("input")?.value;
     if (query) {
-      router.push(`/search?query=${query}`);
-      closeModal();
+      router.push(`/search?query=${query}`)
+        .then(() => closeModal())
+        .catch((err) => console.log(err));
     }
   }
 
