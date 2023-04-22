@@ -1,3 +1,4 @@
+import { type posts } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { prisma } from "~/server/db";
@@ -69,5 +70,14 @@ export const postRouter = createTRPCRouter({
         items,
         nextCursor,
       };
+    }),
+  getRandomPosts: publicProcedure
+    .query(async ({ ctx }) => {
+      const items = await ctx.prisma.
+        $queryRawUnsafe<posts[]>(`
+          SELECT id, title, thumbnail_path, slug FROM posts ORDER BY RAND() LIMIT 3;
+        `)
+      
+      return items
     }),
 });

@@ -10,8 +10,9 @@ import "node_modules/highlight.js/styles/atom-one-dark.css";
 import { useCallback, useEffect, useState } from "react";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import Loading from "~/components/Loading";
+import RandomPosts from "~/components/Partials/RandomPosts";
 import Progress from "~/components/Progress";
-import { prisma } from "~/server/db";
+import { api } from "~/utils/api";
 import ServerSideTRPC from "~/utils/trpc_serverside";
 
 export async function getServerSideProps(
@@ -19,12 +20,9 @@ export async function getServerSideProps(
 ) {
   const trpc = ServerSideTRPC();
 
-  const [post, randomPosts] = await Promise.all([
-    trpc.post.show.fetch({
-      slug: context.query.slug as string,
-    }),
-    prisma.$queryRawUnsafe(`SELECT * FROM posts ORDER BY RAND() LIMIT 3;`),
-  ]);
+  const post = await trpc.post.show.fetch({
+    slug: context.query.slug as string,
+  });
 
   if (!post) {
     return {
@@ -37,7 +35,6 @@ export async function getServerSideProps(
     props: {
       trpcState: trpc.dehydrate(),
       data: post,
-      random: randomPosts as (typeof post)[],
     },
   };
 }
@@ -45,7 +42,7 @@ export async function getServerSideProps(
 export default function Post(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-  const { data, random } = props;
+  const { data } = props;
 
   const [contentHeight, setContentHeight] = useState<number>(0);
 
@@ -76,6 +73,8 @@ export default function Post(
     });
   }, []);
   /* eslint-enable */
+
+  const random = api.post.getRandomPosts.useQuery();
 
   return (
     <AnimatedLayout>
@@ -147,42 +146,8 @@ export default function Post(
               <div dangerouslySetInnerHTML={{ __html: data.content }} />
             </article>
 
-            {random && (
-              <>
-                <section
-                  id="custom-container"
-                  className="prose mx-auto max-w-3xl px-5
-            py-3 dark:prose-light sm:prose lg:prose-lg xl:prose-xl md:py-3 lg:py-6 xl:py-12"
-                >
-                  <h2 className="mb-0 mt-[15px] text-gray-600 dark:text-gray-400">
-                    Daha fazla gönderi...
-                  </h2>
-
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                    {random.map((random_post, index) => (
-                      <div key={index}>
-                        <Link
-                          href={`/${random_post.slug}`}
-                          title={random_post.title}
-                          className="block text-center text-gray-600 no-underline hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200"
-                          style={{
-                            textDecoration: "none",
-                          }}
-                        >
-                          <img
-                            className="mb-[10px] max-w-full rounded-sm shadow-md"
-                            src={`https://dogukan.dev${
-                              random_post.thumbnail_path as string
-                            }`}
-                            alt={random_post.title}
-                          />
-                          {random_post.title}
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </>
+            {random.status === "success" && (
+              <RandomPosts random={random.data} />
             )}
           </>
         ) : (
