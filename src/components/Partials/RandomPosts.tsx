@@ -1,7 +1,7 @@
-import { inferRouterOutputs } from "@trpc/server";
+import type { inferRouterOutputs } from "@trpc/server";
 import Image from "next/image";
 import Link from "next/link";
-import { AppRouter } from "~/server/api/root";
+import type { AppRouter } from "~/server/api/root";
 
 type RouterTypes = inferRouterOutputs<AppRouter>;
 type RandomPosts = RouterTypes["post"]["getRandomPosts"];

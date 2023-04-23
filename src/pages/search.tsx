@@ -8,6 +8,7 @@ import Summary from "~/components/Content/Summary";
 import Error from "~/components/Error";
 import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Search: NextPage = () => {
   const router = useRouter();
@@ -45,53 +46,68 @@ const Search: NextPage = () => {
   }, [inView, fetchNextPage]);
 
   return (
-    <AnimatedLayout>
-      <section className="mx-auto mb-24 w-full max-w-6xl px-5 xl:px-0">
-        <h1 className="mb-4 text-center text-4xl font-semibold text-gray-800 hover:text-black dark:text-gray-300 dark:hover:text-gray-500">
-          &quot;{query}&quot; araması
-        </h1>
-      </section>
-      <section className="mx-auto w-full max-w-6xl px-5 xl:px-0">
-        {status === "loading" ? (
-          <Loading />
-        ) : status === "error" ? (
-          <Error statusCode="500" />
-        ) : (
-          <>
-            {data.pages.map((page) => (
-              <React.Fragment key={page.nextCursor}>
-                <AnimatePresence>
-                  {page.items.length === 0 && (
-                    <div className="text-center text-gray-800 dark:text-gray-300 mb-32">
-                      <p className="text-3xl font-semibold">Sonuç bulunamadı</p>
-                      <p className="text-xl">Arama kriterlerinizi değiştirin</p>
-                    </div>
+    <>
+      <Head>
+        <title>
+          {query} araması - Doğukan Öksüz
+        </title>
+        <meta name="description" content={`${query} aramasında yazılmış makaleler. Doğukan Öksüz, Web Developer`} />
+      </Head>
+
+      <AnimatedLayout>
+        <section className="mx-auto mb-24 w-full max-w-6xl px-5 xl:px-0">
+          <h1 className="mb-4 text-center text-4xl font-semibold text-gray-800 hover:text-black dark:text-gray-300 dark:hover:text-gray-500">
+            &quot;{query}&quot; araması
+          </h1>
+        </section>
+        <section className="mx-auto w-full max-w-6xl px-5 xl:px-0">
+          {status === "loading" ? (
+            <Loading />
+          ) : status === "error" ? (
+            <Error statusCode="500" />
+          ) : (
+            <>
+              {data.pages.map((page) => (
+                <React.Fragment key={page.nextCursor}>
+                  <AnimatePresence>
+                    {page.items.length === 0 && (
+                      <div className="mb-32 text-center text-gray-800 dark:text-gray-300">
+                        <p className="text-3xl font-semibold">
+                          Sonuç bulunamadı
+                        </p>
+                        <p className="text-xl">
+                          Arama kriterlerinizi değiştirin
+                        </p>
+                      </div>
+                    )}
+                    {page.items.map((article) => (
+                      <Summary article={article} key={article.id.toString()} />
+                    ))}
+                  </AnimatePresence>
+                </React.Fragment>
+              ))}
+              <div>
+                <div
+                  ref={ref}
+                  onClick={() => {
+                    fetchNextPage().catch((err) => console.log(err));
+                  }}
+                >
+                  {isFetchingNextPage ? (
+                    <Loading />
+                  ) : (
+                    hasNextPage && "Yenileri yükle"
                   )}
-                  {page.items.map((article) => (
-                    <Summary article={article} key={article.id.toString()} />
-                  ))}
-                </AnimatePresence>
-              </React.Fragment>
-            ))}
-            <div>
-              <div
-                ref={ref}
-                onClick={() => {
-                  fetchNextPage().catch((err) => console.log(err));
-                }}
-              >
-                {isFetchingNextPage ? (
-                  <Loading />
-                ) : (
-                  hasNextPage && "Yenileri yükle"
-                )}
+                </div>
               </div>
-            </div>
-            <div>{isFetching && !isFetchingNextPage ? <Loading /> : null}</div>
-          </>
-        )}
-      </section>
-    </AnimatedLayout>
+              <div>
+                {isFetching && !isFetchingNextPage ? <Loading /> : null}
+              </div>
+            </>
+          )}
+        </section>
+      </AnimatedLayout>
+    </>
   );
 };
 

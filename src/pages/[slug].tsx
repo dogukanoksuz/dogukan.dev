@@ -154,6 +154,7 @@ export default function Post(
                   );
                 })}
               {parse(data.content, {
+                /* eslint-disable */
                 replace: (domNode: any) => {
                   if (domNode.name === "img") {
                     const { attribs } = domNode;
@@ -170,11 +171,14 @@ export default function Post(
                           margin: "0 auto",
                         }}
                         className="rounded-sm"
+                        alt={data.title}
                       />
                     );
                   }
                   if (
                     domNode.name === "script" &&
+                    domNode.attribs &&
+                    domNode.attribs.src &&
                     domNode.attribs.src.includes("gist.github.com")
                   ) {
                     return <CodeBlock
@@ -188,6 +192,7 @@ export default function Post(
                     return <CodeBlock id={domNode.attribs.id} />;
                   }
                 },
+                /* eslint-enable */
               })}
             </article>
 
