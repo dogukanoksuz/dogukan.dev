@@ -1,5 +1,6 @@
 import type { categories, post_category, posts } from "@prisma/client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 
 export type IPost = posts & {
@@ -22,12 +23,14 @@ export default function Summary(props: ISummaryProps) {
           <article className="flex flex-wrap sm:flex-col md:mb-20 md:flex-row">
             <div className="article-image rounded-md md:w-5/12 ">
               <Link href={`/${props.article.slug}`} scroll={false}>
-                <img
-                  src={`https://dogukan.dev/${
-                    props.article.thumbnail_path as string
-                  }`}
+                <Image
+                  src={props.article.thumbnail_path as string}
                   alt={props.article.title}
-                  className="w-100 h-auto rounded-md shadow-xl"
+                  width="0"
+                  height="0"
+                  sizes="40vw"
+                  loading="lazy"
+                  className="w-full h-auto rounded-md"
                 />
               </Link>
             </div>

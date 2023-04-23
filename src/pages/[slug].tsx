@@ -14,6 +14,14 @@ import RandomPosts from "~/components/Partials/RandomPosts";
 import Progress from "~/components/Progress";
 import { api } from "~/utils/api";
 import ServerSideTRPC from "~/utils/trpc_serverside";
+import parse from "html-react-parser";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const CodeBlock = dynamic(() => import("../components/Partials/CodeBlock"), {
+  ssr: true,
+  loading: () => <Loading />,
+});
 
 export async function getServerSideProps(
   context: GetServerSidePropsContext<{ slug: string }>
@@ -51,13 +59,15 @@ export default function Post(
   const contentSectionRef = useCallback((node: any) => {
     if (node !== null) {
       const debouncedCalculation = debounce(contentSectionRef);
-      const $imgs = node.querySelectorAll("img");
+      if (node.querySelectorAll) {
+        const $imgs = node.querySelectorAll("img");
 
-      $imgs.forEach(($img: any) => {
-        if (!$img.complete) $img.onload = debouncedCalculation;
-      });
+        $imgs.forEach(($img: any) => {
+          if (!$img.complete) $img.onload = debouncedCalculation;
+        });
 
-      setContentHeight(node.getBoundingClientRect().height);
+        setContentHeight(node.getBoundingClientRect().height);
+      }
     }
   }, []);
 
@@ -143,7 +153,42 @@ export default function Post(
                     </span>
                   );
                 })}
-              <div dangerouslySetInnerHTML={{ __html: data.content }} />
+              {parse(data.content, {
+                replace: (domNode: any) => {
+                  if (domNode.name === "img") {
+                    const { attribs } = domNode;
+                    return (
+                      <Image
+                        {...attribs}
+                        width={attribs.width ? attribs.width : 0}
+                        height={attribs.height ? attribs.height : 0}
+                        sizes="60vw"
+                        loading="lazy"
+                        style={{
+                          width: attribs.width ? attribs.width : "100%",
+                          height: "auto",
+                          margin: "0 auto",
+                        }}
+                        className="rounded-sm"
+                      />
+                    );
+                  }
+                  if (
+                    domNode.name === "script" &&
+                    domNode.attribs.src.includes("gist.github.com")
+                  ) {
+                    return <CodeBlock
+                      id={domNode.attribs.src
+                        .split("/")
+                        .slice(-1)[0]
+                        .replace(".js", "")}
+                    />;
+                  }
+                  if (domNode.name === "gist") {
+                    return <CodeBlock id={domNode.attribs.id} />;
+                  }
+                },
+              })}
             </article>
 
             {random.status === "success" && (

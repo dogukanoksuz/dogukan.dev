@@ -1,4 +1,5 @@
 import { inferRouterOutputs } from "@trpc/server";
+import Image from "next/image";
 import Link from "next/link";
 import { AppRouter } from "~/server/api/root";
 
@@ -36,12 +37,18 @@ const RandomPosts = (props: IRandomPostsProps) => {
                       textDecoration: "none",
                     }}
                   >
-                    <img
+                    <Image
                       className="mb-[10px] max-w-full rounded-sm shadow-md"
-                      src={`https://dogukan.dev${
-                        random_post.thumbnail_path as string
-                      }`}
+                      src={random_post.thumbnail_path as string}
                       alt={random_post.title}
+                      width="0"
+                      height="0"
+                      sizes="20vw"
+                      loading="lazy"
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                      }}
                     />
                     {random_post.title}
                   </Link>
