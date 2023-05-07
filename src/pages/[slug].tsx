@@ -1,10 +1,12 @@
 import hljs from "highlight.js";
+import parse from "html-react-parser";
 import { debounce } from "lodash";
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import Head from "next/head";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import "node_modules/highlight.js/styles/atom-one-dark.css";
 import { useCallback, useEffect, useState } from "react";
@@ -12,11 +14,9 @@ import AnimatedLayout from "~/components/AnimatedLayout";
 import Loading from "~/components/Loading";
 import RandomPosts from "~/components/Partials/RandomPosts";
 import Progress from "~/components/Progress";
+import SEO from "~/components/SEO";
 import { api } from "~/utils/api";
 import ServerSideTRPC from "~/utils/trpc_serverside";
-import parse from "html-react-parser";
-import Image from "next/image";
-import dynamic from "next/dynamic";
 
 const CodeBlock = dynamic(() => import("../components/Partials/CodeBlock"), {
   ssr: true,
@@ -88,7 +88,16 @@ export default function Post(
 
   return (
     <AnimatedLayout>
-      <Head>{data && <title>{data.title} - Doğukan Öksüz</title>}</Head>
+      {data && 
+        <SEO 
+          title={data.title} 
+          description={data.seo_description} 
+          image={data.thumbnail_path}
+          tags={data.post_tag && data.post_tag.map((item) => item.tag.name)} 
+          url={`/${data.slug}`}
+          published={data.created_at}
+        />
+      }
 
       <>
         {data ? (
@@ -181,12 +190,14 @@ export default function Post(
                     domNode.attribs.src &&
                     domNode.attribs.src.includes("gist.github.com")
                   ) {
-                    return <CodeBlock
-                      id={domNode.attribs.src
-                        .split("/")
-                        .slice(-1)[0]
-                        .replace(".js", "")}
-                    />;
+                    return (
+                      <CodeBlock
+                        id={domNode.attribs.src
+                          .split("/")
+                          .slice(-1)[0]
+                          .replace(".js", "")}
+                      />
+                    );
                   }
                   if (domNode.name === "gist") {
                     return <CodeBlock id={domNode.attribs.id} />;

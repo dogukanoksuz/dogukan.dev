@@ -2,7 +2,8 @@
 
 This is the third version of my personal website. It is built with [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/). Bootstrapped using Create T3 App.
 
-## Goals
+
+## Goals
 
 - [x] Use Next.js
 - [x] Use Tailwind CSS
@@ -10,4 +11,4 @@ This is the third version of my personal website. It is built with [Next.js](htt
 - [x] Use Prisma
 - [x] Implement infinite scrolling
 - [ ] Refactor all codes and add new views
-- [ ] SEO Optimization
+- [x] SEO Optimization

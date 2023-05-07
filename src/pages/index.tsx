@@ -1,13 +1,12 @@
 import { AnimatePresence } from "framer-motion";
-import type {
-  InferGetServerSidePropsType
-} from "next";
+import type { InferGetServerSidePropsType } from "next";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import Summary from "~/components/Content/Summary";
 import Error from "~/components/Error";
 import Jumbotron from "~/components/Partials/Jumbotron";
+import SEO from "~/components/SEO";
 import { api } from "~/utils/api";
 import ServerSideTRPC from "~/utils/trpc_serverside";
 import Loading from "../components/Loading";
@@ -87,6 +86,7 @@ export default function Home(
 
   return (
     <AnimatedLayout>
+      <SEO />
       <Jumbotron />
       <section className="mx-auto w-full max-w-6xl px-5 xl:px-0">
         {status === "loading" ? (

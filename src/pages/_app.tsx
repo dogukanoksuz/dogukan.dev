@@ -18,13 +18,16 @@ const variants = {
 
 const DivergentApp: AppType = ({ Component, pageProps }) => {
   const router = useRouter();
-  
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  
+
   Router.events.on("routeChangeStart", () => NProgress.start());
-  Router.events.on("routeChangeComplete", () => { NProgress.done(); setTimeout(() => scrollToTop(), 150) });
+  Router.events.on("routeChangeComplete", () => {
+    NProgress.done();
+    setTimeout(() => scrollToTop(), 150);
+  });
   Router.events.on("routeChangeError", () => NProgress.done());
 
   useEffect(() => {
@@ -52,13 +55,39 @@ const DivergentApp: AppType = ({ Component, pageProps }) => {
     <>
       <GlobalStateProvider>
         <Head>
-          <title>Doğukan Öksüz - dogukan.dev</title>
+          <meta charSet="utf-8" />
           <meta
-            name="description"
-            content="Doğukan Öksüz'ün kişisel blog sitesi"
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
-          <link rel="icon" href="/favicon.png" />
+          <link rel="shortcut icon" href="/favicon/favicon.png" />
+          <meta content="Doğukan Öksüz" name="author" />
+          <meta name="apple-mobile-web-app-title" content="Doğukan Öksüz" />
+          <meta name="application-name" content="Doğukan Öksüz" />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
+          />
+          <link rel="manifest" href="/favicon/site.webmanifest" />
+          <link
+            rel="mask-icon"
+            href="/favicon/safari-pinned-tab.svg"
+            color="#ef4444"
+          />
+          <meta name="theme-color" content="#111111" />
+          <meta name="msapplication-TileColor" content="#ff4444" />
+          <meta
+            name="msapplication-config"
+            content="/favicon/browserconfig.xml"
+          />
+          <meta name="theme-color" content="#ffffff" />
+          <meta
+            name="p:domain_verify"
+            content="2bb6c8cd01f5a281f36ec615cb8c4814"
+          />
         </Head>
+
         <Header />
         <motion.div variants={variants} initial="hidden" animate="visible">
           <AnimatePresence mode="wait" initial={false}>

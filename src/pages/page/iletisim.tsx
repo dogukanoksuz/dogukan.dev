@@ -2,15 +2,17 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import AnimatedLayout from "~/components/AnimatedLayout";
-import contact from "../../assets/contact.svg"
+import contact from "../../assets/contact.svg";
+import SEO from "~/components/SEO";
 
 const Page: NextPage = () => {
   return (
     <AnimatedLayout>
-      <Head>
-        <title>Doğukan Öksüz - dogukan.dev</title>
-        <link rel="icon" href="/favicon.png" />
-      </Head>
+      <SEO
+        title="İletişim"
+        description="Doğukan Öksüz ile bu sayfa aracılığında iletişime geçebilirsiniz."
+        url={`/page/iletisim`}
+      />
 
       <article
         id="article"
@@ -21,9 +23,12 @@ const Page: NextPage = () => {
         <div className="mx-auto grid max-w-screen-xl grid-cols-1 gap-8 text-gray-900 md:grid-cols-2">
           <div className="flex flex-col justify-between">
             <div>
-              <h2 className="text-4xl font-bold leading-tight lg:text-5xl" style={{
-                marginTop: "0.4em !important"
-              }}>
+              <h2
+                className="text-4xl font-bold leading-tight lg:text-5xl"
+                style={{
+                  marginTop: "0.4em !important",
+                }}
+              >
                 Hadi her şeyi konuşalım!
               </h2>
               <div className="mt-8 text-gray-700 dark:text-gray-300">
@@ -32,10 +37,13 @@ const Page: NextPage = () => {
               </div>
             </div>
             <div className="mt-8 text-center">
-              <Image src={
-                // eslint-disable-next-line
-                contact
-              } alt="İletişim" />
+              <Image
+                src={
+                  // eslint-disable-next-line
+                  contact
+                }
+                alt="İletişim"
+              />
             </div>
           </div>
           <form id="contact" action="" method="post">

@@ -1,6 +1,8 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import AnimatedLayout from "~/components/AnimatedLayout";
+import SEO from "~/components/SEO";
+import { Excerpt } from "~/utils/excerpt";
 import ServerSideTRPC from "~/utils/trpc_serverside";
 
 export async function getServerSideProps(
@@ -34,10 +36,7 @@ export default function Post(
 
   return (
     <AnimatedLayout>
-      <Head>
-        <title>Doğukan Öksüz - dogukan.dev</title>
-        <link rel="icon" href="/favicon.png" />
-      </Head>
+      {data && <SEO title={data.title} description={Excerpt(data.content)} url={`/page/${data.slug}`} />}
 
       <article
         id="article"

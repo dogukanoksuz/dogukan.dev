@@ -9,6 +9,7 @@ import { useInView } from "react-intersection-observer";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import Summary from "~/components/Content/Summary";
 import Error from "~/components/Error";
+import SEO from "~/components/SEO";
 import { api } from "~/utils/api";
 import ServerSideTRPC from "~/utils/trpc_serverside";
 import Loading from "../../components/Loading";
@@ -100,6 +101,11 @@ export default function Category(
 
   return (
     <AnimatedLayout>
+      <SEO
+        title={(category ? category.title : "-") + " kategori arşivi"}
+        description={(category ? category.title : "-") + " kategorisindeki yazılar arşivi. Doğukan Öksüz, Software Engineer."}
+        url={"/category/" + (category ? category.slug : "-")}
+      />
       <section className="mx-auto mb-24 w-full max-w-6xl px-5 xl:px-0">
         <h1 className="mb-4 text-center text-4xl font-semibold text-gray-800 hover:text-black dark:text-gray-300 dark:hover:text-gray-500">
           {category ? category.title : "-"} kategorisi

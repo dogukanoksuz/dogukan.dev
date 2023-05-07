@@ -1,14 +1,14 @@
+import { AnimatePresence } from "framer-motion";
 import { type NextPage } from "next";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import AnimatedLayout from "~/components/AnimatedLayout";
-import { api } from "~/utils/api";
-import Loading from "../components/Loading";
 import Summary from "~/components/Content/Summary";
 import Error from "~/components/Error";
-import { AnimatePresence } from "framer-motion";
-import { useRouter } from "next/router";
-import Head from "next/head";
+import SEO from "~/components/SEO";
+import { api } from "~/utils/api";
+import Loading from "../components/Loading";
 
 const Search: NextPage = () => {
   const router = useRouter();
@@ -47,12 +47,11 @@ const Search: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>
-          {query} araması - Doğukan Öksüz
-        </title>
-        <meta name="description" content={`${query} aramasında yazılmış makaleler. Doğukan Öksüz, Web Developer`} />
-      </Head>
+      <SEO
+        title={`${query} araması`}
+        description={`${query} aramasında yazılmış makaleler. Doğukan Öksüz, Web Developer`}
+        url={`/search?query=${query}`}
+      />
 
       <AnimatedLayout>
         <section className="mx-auto mb-24 w-full max-w-6xl px-5 xl:px-0">
