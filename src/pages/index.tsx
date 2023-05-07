@@ -1,15 +1,45 @@
-import { type NextPage } from "next";
+import { AnimatePresence } from "framer-motion";
+import type {
+  InferGetServerSidePropsType
+} from "next";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import AnimatedLayout from "~/components/AnimatedLayout";
-import Jumbotron from "~/components/Partials/Jumbotron";
-import { api } from "~/utils/api";
-import Loading from "../components/Loading";
 import Summary from "~/components/Content/Summary";
 import Error from "~/components/Error";
-import { AnimatePresence } from "framer-motion";
+import Jumbotron from "~/components/Partials/Jumbotron";
+import { api } from "~/utils/api";
+import ServerSideTRPC from "~/utils/trpc_serverside";
+import Loading from "../components/Loading";
 
-const Home: NextPage = () => {
+export async function getServerSideProps() {
+  const trpc = ServerSideTRPC();
+
+  const posts = await trpc.post.initialPosts.fetch({
+    page: 1,
+    per_page: 6,
+  });
+
+  if (!posts) {
+    return {
+      props: { posts: null },
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      trpcState: trpc.dehydrate(),
+      posts,
+    },
+  };
+}
+
+export default function Home(
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) {
+  const { posts } = props;
+
   const { ref, inView } = useInView();
 
   const {
@@ -25,6 +55,27 @@ const Home: NextPage = () => {
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
+      staleTime: Infinity,
+      initialData: () => {
+        if (!posts) return;
+        let nextCursor: number | undefined = undefined;
+        if (posts.length > 5) {
+          const nextItem = posts.pop();
+          if (nextItem) {
+            nextCursor = Number(nextItem.id.toString());
+          }
+        }
+
+        return {
+          pages: [
+            {
+              items: posts,
+              nextCursor: nextCursor,
+            },
+          ],
+          pageParams: [undefined],
+        };
+      },
     }
   );
 
@@ -73,6 +124,4 @@ const Home: NextPage = () => {
       </section>
     </AnimatedLayout>
   );
-};
-
-export default Home;
+}

@@ -30,6 +30,35 @@ export const postRouter = createTRPCRouter({
         },
       });
     }),
+  initialPosts: publicProcedure
+    .input(
+      z.object({
+        page: z.number().default(1),
+        per_page: z.number().default(10),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const results = await ctx.prisma.posts.findMany({
+        include: {
+          post_category: {
+            include: {
+              category: true,
+            },
+          },
+        },
+        skip: (input.page - 1) * input.per_page,
+        take: input.per_page,
+        orderBy: {
+          created_at: "desc",
+        },
+      });
+
+      results.forEach((result) => {
+        result.content = Excerpt(result.content);
+      });
+
+      return results;
+    }),
   infinitePosts: publicProcedure
     .input(
       z.object({
@@ -71,13 +100,11 @@ export const postRouter = createTRPCRouter({
         nextCursor,
       };
     }),
-  getRandomPosts: publicProcedure
-    .query(async ({ ctx }) => {
-      const items = await ctx.prisma.
-        $queryRawUnsafe<posts[]>(`
+  getRandomPosts: publicProcedure.query(async ({ ctx }) => {
+    const items = await ctx.prisma.$queryRawUnsafe<posts[]>(`
           SELECT id, title, thumbnail_path, slug FROM posts ORDER BY RAND() LIMIT 3;
-        `)
-      
-      return items
-    }),
+        `);
+
+    return items;
+  }),
 });
