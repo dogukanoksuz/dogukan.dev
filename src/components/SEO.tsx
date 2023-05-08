@@ -77,7 +77,7 @@ const generateJSONLD = (props: ISEOProps) => {
         props.category_name && {
           "@type": "ListItem",
           position: 2,
-          name: props.category_name as string,
+          name: props.category_name,
           item: `${SITE_ADDRESS}/category/${props.category_slug as string}`,
         },
         {
