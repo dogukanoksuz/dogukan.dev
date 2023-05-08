@@ -13,6 +13,8 @@ interface ISEOProps {
   tags?: string[];
   published?: Date | null;
   children?: React.ReactNode;
+  category_name?: string;
+  category_slug?: string;
 }
 
 const DEFAULTS = {
@@ -72,9 +74,15 @@ const generateJSONLD = (props: ISEOProps) => {
           name: SITE_NAME,
           item: SITE_ADDRESS,
         },
-        {
+        props.category_name && {
           "@type": "ListItem",
           position: 2,
+          name: props.category_name,
+          item: `${SITE_ADDRESS}/category/${props.category_slug}`,
+        },
+        {
+          "@type": "ListItem",
+          position: props.category_name ? 3 : 2,
           name: props.title,
           item: `${SITE_ADDRESS}${props.url ? props.url : ""}`,
         },

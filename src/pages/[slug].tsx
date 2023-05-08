@@ -97,6 +97,8 @@ export default function Post(
           tags={data.post_tag && data.post_tag.map((item) => item.tag.name)}
           url={`/${data.slug}`}
           published={data.created_at}
+          category_name={data.post_category ? data.post_category[0]?.category.title : undefined}
+          category_slug={data.post_category ? data.post_category[0]?.category.slug : undefined}
         />
       )}
 
