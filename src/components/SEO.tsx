@@ -3,7 +3,7 @@ import Script from "next/script";
 
 const SITE_ADDRESS = "https://dogukan.dev";
 const SITE_NAME = "Doğukan Öksüz";
-const IMAGE_URL_PREFIX = "";
+const IMAGE_URL_PREFIX = "https://dogukan.dev";
 
 interface ISEOProps {
   title?: string | null;
@@ -40,6 +40,7 @@ const generateJSONLD = (props: ISEOProps) => {
     },
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const items: any[] = [def];
 
   // It means it's a blog post
@@ -49,11 +50,11 @@ const generateJSONLD = (props: ISEOProps) => {
       "@type": "Article",
       mainEntityOfPage: {
         "@type": "WebPage",
-        "@id": SITE_ADDRESS + props.url,
+        "@id": `${SITE_ADDRESS}${props.url ? props.url : ""}`,
       },
-      headline: props.title ? props.title + " - " + SITE_NAME : DEFAULTS.title,
+      headline: props.title ? `${props.title} - ${SITE_NAME}` : DEFAULTS.title,
       description: props.description || DEFAULTS.description,
-      image: props.image ? IMAGE_URL_PREFIX + props.image : DEFAULTS.image,
+      image: props.image ? `${IMAGE_URL_PREFIX}${props.image}` : DEFAULTS.image,
       author: {
         "@type": "Person",
         name: "Doğukan Öksüz",
@@ -75,7 +76,7 @@ const generateJSONLD = (props: ISEOProps) => {
           "@type": "ListItem",
           position: 2,
           name: props.title,
-          item: SITE_ADDRESS + props.url,
+          item: `${SITE_ADDRESS}${props.url ? props.url : ""}`,
         },
       ],
     });
@@ -86,97 +87,121 @@ const generateJSONLD = (props: ISEOProps) => {
 
 export default function SEO(props: ISEOProps) {
   return (
-    <Head>
-      {/* Title fields */}
-      <title key="title">
-        {props.title ? props.title + " - " + SITE_NAME : DEFAULTS.title}
-      </title>
-      <meta
-        itemProp="name"
-        content={props.title ? props.title + " - " + SITE_NAME : DEFAULTS.title}
-      />
-      <meta
-        property="og:title"
-        content={props.title ? props.title + " - " + SITE_NAME : DEFAULTS.title}
-      />
+    <>
+      <Head>
+        {/* Title fields */}
+        <title key="title">
+          {props.title ? `${props.title} - ${SITE_NAME}` : DEFAULTS.title}
+        </title>
+        <meta
+          itemProp="name"
+          content={
+            props.title ? `${props.title} - ${SITE_NAME}` : DEFAULTS.title
+          }
+        />
+        <meta
+          property="og:title"
+          content={
+            props.title ? `${props.title} - ${SITE_NAME}` : DEFAULTS.title
+          }
+        />
 
-      {/* Description fields */}
-      <meta
-        name="description"
-        content={props.description || DEFAULTS.description}
-      />
-      <meta
-        property="og:description"
-        content={props.description || DEFAULTS.description}
-      />
-      <meta
-        name="twitter:description"
-        property="og:description"
-        content={props.description || DEFAULTS.description}
-      />
-      <meta
-        itemProp="description"
-        content={props.description || DEFAULTS.description}
-      />
+        {/* Description fields */}
+        <meta
+          name="description"
+          content={props.description || DEFAULTS.description}
+        />
+        <meta
+          property="og:description"
+          content={props.description || DEFAULTS.description}
+        />
+        <meta
+          name="twitter:description"
+          property="og:description"
+          content={props.description || DEFAULTS.description}
+        />
+        <meta
+          itemProp="description"
+          content={props.description || DEFAULTS.description}
+        />
 
-      {/* Twitter fields */}
-      <meta
-        name="twitter:text:title"
-        content={props.title ? props.title + " - " + SITE_NAME : DEFAULTS.title}
-      />
-      <meta
-        name="twitter:title"
-        content={props.title ? props.title + " - " + SITE_NAME : DEFAULTS.title}
-      />
-      <meta
-        name="twitter:url"
-        content={props.url ? SITE_ADDRESS + props.url : SITE_ADDRESS}
-      />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta
-        name="twitter:image"
-        content={props.image ? IMAGE_URL_PREFIX + props.image : DEFAULTS.image}
-      />
-      <meta name="twitter:domain" content="dogukan.dev" />
-      <meta name="twitter:site" content="@lildivergent" />
-      <meta name="twitter:creator" content="@lildivergent" />
+        {/* Twitter fields */}
+        <meta
+          name="twitter:text:title"
+          content={
+            props.title ? `${props.title} - ${SITE_NAME}` : DEFAULTS.title
+          }
+        />
+        <meta
+          name="twitter:title"
+          content={
+            props.title ? `${props.title} - ${SITE_NAME}` : DEFAULTS.title
+          }
+        />
+        <meta
+          name="twitter:url"
+          content={props.url ? `${SITE_ADDRESS}${props.url}` : SITE_ADDRESS}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content={
+            props.image ? `${IMAGE_URL_PREFIX}${props.image}` : DEFAULTS.image
+          }
+        />
+        <meta name="twitter:domain" content="dogukan.dev" />
+        <meta name="twitter:site" content="@lildivergent" />
+        <meta name="twitter:creator" content="@lildivergent" />
 
-      {/* Open Graph fields */}
-      <meta
-        property="og:url"
-        content={props.url ? SITE_ADDRESS + props.url : SITE_ADDRESS}
-      />
-      <meta property="og:site_name" content={SITE_NAME} />
-      <meta property="og:type" content="website" />
+        {/* Open Graph fields */}
+        <meta
+          property="og:url"
+          content={props.url ? `${SITE_ADDRESS}${props.url}` : SITE_ADDRESS}
+        />
+        <meta property="og:site_name" content={SITE_NAME} />
+        <meta property="og:type" content="website" />
 
-      {/* Keywords */}
-      <meta
-        name="keywords"
-        content={props.tags ? arrayToString(props.tags) : DEFAULTS.tags}
-      />
+        {/* Keywords */}
+        <meta
+          name="keywords"
+          content={props.tags ? arrayToString(props.tags) : DEFAULTS.tags}
+        />
 
-      {/* Images */}
-      <meta
-        property="og:image"
-        content={props.image ? IMAGE_URL_PREFIX + props.image : DEFAULTS.image}
-      />
-      <meta
-        itemProp="image"
-        content={props.image ? IMAGE_URL_PREFIX + props.image : DEFAULTS.image}
-      />
-      <link
-        rel="image"
-        type="image/jpeg"
-        href={props.image ? IMAGE_URL_PREFIX + props.image : DEFAULTS.image}
-      />
-      {props.children}
-
+        {/* Images */}
+        <meta
+          property="og:image"
+          content={
+            props.image ? `${IMAGE_URL_PREFIX}${props.image}` : DEFAULTS.image
+          }
+        />
+        <meta
+          itemProp="image"
+          content={
+            props.image ? `${IMAGE_URL_PREFIX}${props.image}` : DEFAULTS.image
+          }
+        />
+        <link
+          rel="image"
+          type="image/jpeg"
+          href={
+            props.image ? `${IMAGE_URL_PREFIX}${props.image}` : DEFAULTS.image
+          }
+        />
+        {props.children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: generateJSONLD(props) }}
+          key="jsonld"
+        />
+      </Head>
       <Script
+        id="gtag"
         strategy="afterInteractive"
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-L4T60990DG"
       ></Script>
       <Script
+        id="gtag-init"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
@@ -187,11 +212,6 @@ export default function SEO(props: ISEOProps) {
       `,
         }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: generateJSONLD(props) }}
-        key="jsonld"
-      />
-    </Head>
+    </>
   );
 }

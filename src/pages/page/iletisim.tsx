@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import contact from "../../assets/contact.svg";
@@ -82,6 +81,7 @@ const Page: NextPage = () => {
               <button
                 type="submit"
                 id="contactButton"
+                disabled
                 className="focus:shadow-outline w-full rounded-lg bg-red-600 p-3 text-sm font-bold uppercase tracking-wide text-gray-100 focus:outline-none"
               >
                 Mesajı Gönder

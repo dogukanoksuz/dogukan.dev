@@ -1,5 +1,4 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import Head from "next/head";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import SEO from "~/components/SEO";
 import { Excerpt } from "~/utils/excerpt";

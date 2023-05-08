@@ -18,6 +18,7 @@
     "@trpc/next": "^10.25.0",
     "@trpc/react-query": "^10.25.0",
     "@trpc/server": "^10.25.0",
+    "disqus-react": "^1.1.5",
     "feed": "^4.2.2",
     "framer-motion": "^10.12.8",
     "highlight.js": "^11.8.0",

@@ -1,3 +1,4 @@
+import { DiscussionEmbed } from "disqus-react";
 import hljs from "highlight.js";
 import parse from "html-react-parser";
 import { debounce } from "lodash";
@@ -88,16 +89,16 @@ export default function Post(
 
   return (
     <AnimatedLayout>
-      {data && 
-        <SEO 
-          title={data.title} 
-          description={data.seo_description} 
+      {data && (
+        <SEO
+          title={data.title}
+          description={data.seo_description}
           image={data.thumbnail_path}
-          tags={data.post_tag && data.post_tag.map((item) => item.tag.name)} 
+          tags={data.post_tag && data.post_tag.map((item) => item.tag.name)}
           url={`/${data.slug}`}
           published={data.created_at}
         />
-      }
+      )}
 
       <>
         {data ? (
@@ -210,6 +211,17 @@ export default function Post(
             {random.status === "success" && (
               <RandomPosts random={random.data} />
             )}
+
+            <section id="comments" className="mx-auto max-w-4xl py-10">
+              <DiscussionEmbed
+                shortname="dogukandev"
+                config={{
+                  url: `https://dogukan.dev/${data.slug}`,
+                  identifier: data.id.toString(),
+                  title: data.title,
+                }}
+              />
+            </section>
           </>
         ) : (
           <Loading />
