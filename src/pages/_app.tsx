@@ -86,6 +86,12 @@ const DivergentApp: AppType = ({ Component, pageProps }) => {
             name="p:domain_verify"
             content="2bb6c8cd01f5a281f36ec615cb8c4814"
           />
+          <link
+            rel="canonical"
+            href={`https://dogukan.dev${
+              (router.asPath === "/" ? "" : router.asPath).split("?")[0] as string
+            }`}
+          />
         </Head>
 
         <Header />
