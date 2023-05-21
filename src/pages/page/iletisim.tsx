@@ -3,8 +3,12 @@ import Image from "next/image";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import contact from "../../assets/contact.svg";
 import SEO from "~/components/SEO";
+import { useRef } from "react";
+import mailtolink from "mailto-link";
 
 const Page: NextPage = () => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
     <AnimatedLayout>
       <SEO
@@ -45,13 +49,33 @@ const Page: NextPage = () => {
               />
             </div>
           </div>
-          <form id="contact" action="" method="post">
+          <form
+            id="contact"
+            ref={formRef}
+            onSubmit={(e: React.SyntheticEvent) => {
+              e.preventDefault();
+              const target = e.target as typeof e.target & {
+                email: { value: string };
+                name: { value: string };
+                message: { value: string };
+              };
+              const email = target.email.value;
+              const name = target.name.value;
+              const message = target.message.value;
+
+              window.open(mailtolink({
+                to: "me@dogukan.dev",
+                subject: `Merhaba, ${name}`,
+                body: `${email} - ${message}`,
+              }), "_blank");
+            }}
+          >
             <div>
               <span className="text-sm font-bold uppercase text-gray-600 dark:text-gray-400">
                 Adınız
               </span>
               <input
-                name="name1"
+                name="name"
                 className="focus:shadow-outline mt-2 w-full rounded-lg bg-gray-300 p-3 text-gray-900 focus:outline-none"
                 type="text"
                 placeholder=""
@@ -62,7 +86,7 @@ const Page: NextPage = () => {
                 Email Adresiniz
               </span>
               <input
-                name="email1"
+                name="email"
                 className="focus:shadow-outline mt-2 w-full rounded-lg bg-gray-300 p-3 text-gray-900 focus:outline-none"
                 type="text"
               />
@@ -72,7 +96,7 @@ const Page: NextPage = () => {
                 Mesajınız
               </span>
               <textarea
-                name="message1"
+                name="message"
                 className="focus:shadow-outline mt-2 h-32 w-full rounded-lg bg-gray-300 p-3 text-gray-900 focus:outline-none"
                 defaultValue={""}
               />
@@ -81,7 +105,6 @@ const Page: NextPage = () => {
               <button
                 type="submit"
                 id="contactButton"
-                disabled
                 className="focus:shadow-outline w-full rounded-lg bg-red-600 p-3 text-sm font-bold uppercase tracking-wide text-gray-100 focus:outline-none"
               >
                 Mesajı Gönder

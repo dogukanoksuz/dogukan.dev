@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="flex justify-center text-gray-500">
           <ul className="flex">
             <li className="ml-5">
-              <a target="_blank" href="https://fb.me/dogukanoksuz">
+              <a target="_blank" title="Facebook" href="https://fb.me/dogukanoksuz">
                 <svg
                   className="h-5 w-5 fill-current text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="ml-5">
-              <a target="_blank" href="https://twitter.com/lildivergent">
+              <a target="_blank" title="Twitter" href="https://twitter.com/lildivergent">
                 <svg
                   className="h-5 w-5 fill-current text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="ml-5">
-              <a target="_blank" href="https://instagram.com/dogukan.jpg">
+              <a target="_blank" title="Instagram" href="https://instagram.com/dogukan.jpg">
                 <svg
                   className="h-5 w-5 fill-current text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   role="img"
@@ -53,7 +53,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="ml-5">
-              <a target="_blank" href="https://linkedin.com/in/dogukanoksuz">
+              <a target="_blank" title="LinkedIn" href="https://linkedin.com/in/dogukanoksuz">
                 <svg
                   className="h-5 w-5 fill-current text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   role="img"
@@ -65,7 +65,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="ml-5">
-              <a target="_blank" href="https://github.com/dogukanoksuz">
+              <a target="_blank" title="GitHub" href="https://github.com/dogukanoksuz">
                 <svg
                   className="h-5 w-5 fill-current text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   role="img"
@@ -77,7 +77,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="ml-5" style={{ marginTop: "-1px" }}>
-              <a target="_blank" href="https://dogukan.dev/rss.xml">
+              <a target="_blank" title="RSS Feed" href="https://dogukan.dev/rss.xml">
                 <svg
                   className="h-6 w-6 fill-current text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   fill="currentColor"
@@ -90,7 +90,7 @@ export default function Footer() {
               </a>
             </li>
             <li className="ml-4">
-              <a target="_blank" href="mailto:me@dogukan.dev">
+              <a target="_blank" title="Email" href="mailto:me@dogukan.dev">
                 <svg
                   className="h-7 w-7 fill-current text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                   style={{ marginTop: "-4px" }}

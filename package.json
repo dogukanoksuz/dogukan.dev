@@ -1,6 +1,6 @@
 {
   "name": "dogukan-dev",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -25,6 +25,7 @@
     "html-react-parser": "^3.0.16",
     "js-htmlencode": "^0.3.0",
     "lodash": "^4.17.21",
+    "mailto-link": "^2.0.0",
     "next": "^13.4.3",
     "next-superjson-plugin": "^0.5.8",
     "nprogress": "^0.2.0",
