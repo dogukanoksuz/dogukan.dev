@@ -3,8 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    transition: all 0.2s;
+  html,
+  body {
+    -webkit-font-smoothing: antialiased;
+    transition: 0.2s all;
+  }
+
+  a, button {
+    transition: 0.2s all;
   }
 
   .my-background {
