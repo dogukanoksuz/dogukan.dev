@@ -14,5 +14,10 @@ const config = {
   experimental: {
     swcPlugins: [["next-superjson-plugin", {}]],
   },
+
+  i18n: {
+    locales: ["tr"],
+    defaultLocale: "tr",
+  },
 };
 export default config;

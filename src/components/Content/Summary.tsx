@@ -2,6 +2,7 @@ import type { categories, post_category, posts } from "@prisma/client";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import NoSSRWrapper from "../NoSSRWrapper";
 
 export type IPost = posts & {
   post_category: (post_category & { category: categories })[];
@@ -21,7 +22,7 @@ export default function Summary(props: ISummaryProps) {
       {props.article && (
         <>
           <article className="flex flex-wrap sm:flex-col md:mb-20 md:flex-row">
-            <div className="article-image rounded-md md:w-5/12 w-full">
+            <div className="article-image w-full rounded-md md:w-5/12">
               <Link href={`/${props.article.slug}`} scroll={false}>
                 <Image
                   src={props.article.thumbnail_path as string}
@@ -30,7 +31,7 @@ export default function Summary(props: ISummaryProps) {
                   height="0"
                   sizes="40vw"
                   loading="lazy"
-                  className="w-full h-auto rounded-md"
+                  className="h-auto w-full rounded-md"
                 />
               </Link>
             </div>
@@ -49,13 +50,15 @@ export default function Summary(props: ISummaryProps) {
               </p>
               <div className="mt-2 text-sm text-gray-400 dark:text-gray-600">
                 <span>
-                  {props.article.created_at?.toLocaleTimeString("tr-TR", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
-                    hour: "numeric",
-                    minute: "numeric",
-                  })}
+                  <NoSSRWrapper>
+                    {props.article.created_at?.toLocaleTimeString("tr-TR", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                  </NoSSRWrapper>
                 </span>
                 <span className="mx-2">·</span>
                 {props.article.post_category &&

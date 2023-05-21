@@ -13,6 +13,7 @@ import "node_modules/highlight.js/styles/atom-one-dark.css";
 import { useCallback, useEffect, useState } from "react";
 import AnimatedLayout from "~/components/AnimatedLayout";
 import Loading from "~/components/Loading";
+import NoSSRWrapper from "~/components/NoSSRWrapper";
 import RandomPosts from "~/components/Partials/RandomPosts";
 import Progress from "~/components/Progress";
 import SEO from "~/components/SEO";
@@ -20,7 +21,7 @@ import { api } from "~/utils/api";
 import ServerSideTRPC from "~/utils/trpc_serverside";
 
 const CodeBlock = dynamic(() => import("../components/Partials/CodeBlock"), {
-  ssr: true,
+  ssr: false,
   loading: () => <Loading />,
 });
 
@@ -97,8 +98,16 @@ export default function Post(
           tags={data.post_tag && data.post_tag.map((item) => item.tag.name)}
           url={`/${data.slug}`}
           published={data.created_at}
-          category_name={data.post_category ? data.post_category[0]?.category.title : undefined}
-          category_slug={data.post_category ? data.post_category[0]?.category.slug : undefined}
+          category_name={
+            data.post_category
+              ? data.post_category[0]?.category.title
+              : undefined
+          }
+          category_slug={
+            data.post_category
+              ? data.post_category[0]?.category.slug
+              : undefined
+          }
         />
       )}
 
@@ -120,13 +129,15 @@ export default function Post(
 
               <h1>{data.title}</h1>
               <div className="mt-2 text-sm text-gray-400 dark:text-gray-600">
-                {data.created_at?.toLocaleTimeString("tr-TR", {
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                  hour: "numeric",
-                  minute: "numeric",
-                })}
+                <NoSSRWrapper>
+                  {data.created_at?.toLocaleTimeString("tr-TR", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </NoSSRWrapper>
                 <span className="mx-2">·</span>
                 {data.post_category &&
                   data.post_category.map((item, index, arr) => {
