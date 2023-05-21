@@ -61,7 +61,7 @@ const Search = (props: ISearchProps) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="min-w-[500px] overflow-hidden rounded-lg bg-white shadow-md transition-all">
+                <Dialog.Panel className="w-full max-w-lg overflow-hidden rounded-lg bg-white shadow-md transition-all">
                   <form onSubmit={handleSubmit}>
                     <input
                       className="block w-full appearance-none bg-transparent py-4 pl-4 pr-12 text-base text-slate-900 placeholder:text-slate-600 focus:outline-none sm:text-sm sm:leading-6"

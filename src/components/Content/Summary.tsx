@@ -21,7 +21,7 @@ export default function Summary(props: ISummaryProps) {
       {props.article && (
         <>
           <article className="flex flex-wrap sm:flex-col md:mb-20 md:flex-row">
-            <div className="article-image rounded-md md:w-5/12 ">
+            <div className="article-image rounded-md md:w-5/12 w-full">
               <Link href={`/${props.article.slug}`} scroll={false}>
                 <Image
                   src={props.article.thumbnail_path as string}
@@ -45,7 +45,7 @@ export default function Summary(props: ISummaryProps) {
                 </Link>
               </h2>
               <p className="text-gray-600 dark:text-gray-400">
-                {props.article.content}
+                {props.article.content.trim()}
               </p>
               <div className="mt-2 text-sm text-gray-400 dark:text-gray-600">
                 <span>

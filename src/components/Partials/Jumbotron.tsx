@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Jumbotron() {
     return (
-        <section className="py-12 px-5 text-center my-background mb-24">
+        <section className="py-12 px-5 text-center my-background md:mb-24 mb-10">
             <div className="w-full max-w-2xl mx-auto">
                 <h2 className="text-5xl dark:text-gray-300 mt-2 mb-6 leading-tight font-semibold font-heading">
                     Doğukan Öksüz

@@ -106,7 +106,7 @@ export default function Category(
         description={(tag ? tag.name : "-") + " isimli etiketi içeren yazılar arşivi. Doğukan Öksüz, Software Engineer."}
         url={"/tag/" + (tag ? tag.slug : "-")}
       />
-      <section className="mx-auto mb-24 w-full max-w-6xl px-5 xl:px-0">
+      <section className="mx-auto md:mb-24 mb-10 w-full max-w-6xl px-5 xl:px-0">
         <h1 className="mb-4 text-center text-4xl font-semibold text-gray-800 hover:text-black dark:text-gray-300 dark:hover:text-gray-500">
           {tag ? tag.name : "-"} etiket arşivi
         </h1>

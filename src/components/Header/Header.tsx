@@ -60,16 +60,16 @@ export default function Header() {
             </nav>
 
             <div className="items-center justify-end md:flex md:flex-1 lg:w-0">
-              <a
+              <div
                 id="search"
                 className="float-left whitespace-nowrap p-2 text-base font-medium text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
               >
                 <Search>
                   <MagnifyingGlassIcon className="h-6 w-6" />
                 </Search>
-              </a>
+              </div>
 
-              <a
+              <div
                 onClick={() => handleModeSwitchClick()}
                 id="mode-switch"
                 className="float-left whitespace-nowrap p-2 text-base font-medium text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
@@ -79,16 +79,16 @@ export default function Header() {
                 ) : (
                   <MoonIcon className="h-6 w-6" />
                 )}
-              </a>
+              </div>
 
-              <a
+              <div
                 id="mobile-menu"
                 className="md:hidden float-left whitespace-nowrap p-2 text-base font-medium text-gray-500 hover:text-gray-900 dark:hover:text-gray-300"
               >
                 <MobileMenu mode={mode}>
                   <Bars3Icon className="h-6 w-6" />
                 </MobileMenu>
-              </a>
+              </div>
             </div>
           </div>
         </div>
